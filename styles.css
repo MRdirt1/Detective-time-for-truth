@@ -1,0 +1,27 @@
+    body {
+      font-family: sans-serif;
+      background-image: url(Foxes_White_background_Ginger_color_Glance_576113_1920x1080.jpg);
+    }
+    
+    .button {
+      background-color: yellow;
+      color: white;
+      font-size: 40px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: 20px;
+      margin-right: 20px;
+      height: 80px;
+      width: 160px;
+      font: bold;
+    }
+    
+    .button:hover {
+      background-color: lightblue;
+    }
+
+    .dupa{
+        font-size: 500%;
+    }
