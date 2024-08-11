@@ -81,7 +81,7 @@ function initialize() {
   $textbox.style.display = 'block';
 }
 
-document.querySelector('#skipButton').onclick = function() {
+document.querySelector('#skipButton').addEventListener('touchend', function() {
   if (Array.isArray(vnData.Scene1.PAGES[currentPage].PageText)) {
     dialogueIndex++;
     if (dialogueIndex >= vnData.Scene1.PAGES[currentPage].PageText.length) {
@@ -92,12 +92,12 @@ document.querySelector('#skipButton').onclick = function() {
         Object.keys(vnData.Scene1.PAGES[currentPage].Options).forEach((option, index) => {
           const $option = document.createElement('div');
           $option.textContent = option;
-          $option.onclick = function() {
+          $option.addEventListener('touchend', function() {
             currentPage = vnData.Scene1.PAGES[currentPage].Options[option];
             pageNum = Object.keys(vnData.Scene1.PAGES).indexOf(currentPage);
             dialogueIndex = 0;
             initialize();
-          };
+          });
           $optionsbox.appendChild($option);
         });
         $optionsbox.style.display = 'block';
@@ -119,12 +119,12 @@ document.querySelector('#skipButton').onclick = function() {
       Object.keys(vnData.Scene1.PAGES[currentPage].Options).forEach((option, index) => {
         const $option = document.createElement('div');
         $option.textContent = option;
-        $option.onclick = function() {
+        $option.addEventListener('touchend', function() {
           currentPage = vnData.Scene1.PAGES[currentPage].Options[option];
           pageNum = Object.keys(vnData.Scene1.PAGES).indexOf(currentPage);
           dialogueIndex = 0;
           initialize();
-        };
+        });
         $optionsbox.appendChild($option);
       });
       $optionsbox.style.display = 'block';
@@ -134,6 +134,24 @@ document.querySelector('#skipButton').onclick = function() {
       initialize();
     }
   }
-};
+});
+
+// Add event listener for window resize to adjust layout
+window.addEventListener('resize', function() {
+  const $textbox = document.querySelector("#textbox p");
+  const $optionsbox = document.querySelector('#optionsbox');
+  const $background = document.querySelector('#background');
+
+  // Adjust layout based on screen size
+  if (window.innerWidth < 768) {
+    // Mobile layout
+    $textbox.style.fontSize = '16px';
+    $optionsbox.style.fontSize = '16px';
+  } else {
+    // Desktop layout
+    $textbox.style.fontSize = '24px';
+    $optionsbox.style.fontSize = '24px';
+  }
+});
 
 initialize();
