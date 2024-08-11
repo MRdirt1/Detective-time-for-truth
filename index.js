@@ -1,25 +1,23 @@
 // index.js
-const fs = require('fs');
-const path = require('path');
+import html from './index.html'; // assuming you're using a bundler like Webpack
 
-// Define a function that renders an HTML file with its associated JavaScript code
 function render(filePath) {
-  // Read the HTML file
-  const html = fs.readFileSync(filePath, 'utf8');
+  // Use the imported HTML string instead of reading it from a file
+  const htmlString = html;
 
   // Get the filename without the directory or extension
-  const fileName = path.basename(filePath, '.html');
+  const fileName = filePath.split('/').pop().split('.')[0];
 
   // Import the associated JavaScript code
-  const jsPath = `./js/${fileName}.js`;
   let jsCode = '';
-  if (fs.existsSync(jsPath)) {
-    jsCode = `<script src="${jsPath}"></script>`;
+  if (module.parent && module.parent.children && module.parent.children.length > 0) {
+    const jsPath = `./js/${fileName}.js`;
+    const jsModule = require(jsPath);
+    jsCode = `<script>${jsModule.default}</script>`;
   }
 
   // Return the rendered HTML
-  return html.replace('</head>', `${jsCode}</head>`);
+  return htmlString.replace('</head>', `${jsCode}</head>`);
 }
 
-// Export the render function
 module.exports = render;

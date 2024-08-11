@@ -16,6 +16,8 @@
         "webpack": "^5.52.1"
     },
     "devDependencies": {
+        "exports-loader": "^5.0.0",
+        "html-webpack-plugin": "^5.6.0",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^4.0.0"
     }
