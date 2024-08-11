@@ -1,27 +1,33 @@
-    body {
-      font-family: sans-serif;
-      background-image: url(Foxes_White_background_Ginger_color_Glance_576113_1920x1080.jpg);
-    }
-    
-    .button {
-      background-color: yellow;
-      color: white;
-      font-size: 40px;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      border-radius: 20px;
-      margin-right: 20px;
-      height: 80px;
-      width: 160px;
-      font: bold;
-    }
-    
-    .button:hover {
-      background-color: lightblue;
-    }
+#mainbox {
+  width: 80%;
+  height: 80vh;
+  margin: 10vh auto;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .dupa{
-        font-size: 500%;
-    }
+#textbox {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#optionsbox {
+  padding: 20px;
+}
+
+#optionsbox > div {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#optionsbox > div:hover {
+  background-color: #f0f0f0;
+}
