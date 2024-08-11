@@ -1,0 +1,102 @@
+{ 
+    "Characters": {
+        "Viola": {
+        	"Happy": "sample_pictures/pink1.png",
+        	"Thinking": "sample_pictures/pink2.png",
+        	"Peeved": "sample_pictures/pink3.png"
+        },
+        "Kylie": {
+        	"Happy": "sample_pictures/black1.png",
+        	"Thinking": "sample_pictures/black2.png",
+        	"Peeved": "sample_pictures/black3.png"
+        },
+        "Anna": {
+        	"Happy": "sample_pictures/blue1.png",
+        	"Thinking": "sample_pictures/blue2.png",
+        	"Peeved": "sample_pictures/blue3.png"
+        },
+        "Me": {
+        	"Happy": "",
+        	"Thinking": "",
+        	"Peeved": ""
+        }
+    },
+    
+    "Scene1": {
+    	"Background": "https://i.pinimg.com/originals/d8/ce/14/d8ce149cace0bf4d0109e7e8e5b8e6e4.png",
+    	"PAGES": {
+			"Page0" : {
+				"Character": "Viola",
+				"Sprite": "Happy",
+				"PageText": "We're having a pop quiz today!"
+				
+			},
+			"Page1" : {
+				"Character": "Viola",
+				"Sprite": "Happy",
+				"PageText": "And just so you know, the questions were made for me by Miss Smith next door. "
+				
+			},
+			"Page2" : {
+				"Character": "Kylie",
+				"Sprite": "Peeved",
+				"PageText": "Ms. Smith's quizzes are always harder than Viola's."
+				
+			},
+			"Page3" : {
+				"Character": "Anna",
+				"Sprite": "Peeved",
+				"PageText": "Yeah..."
+				
+			},
+			"Page4" : {
+				"Character": "Viola",
+				"Sprite": "Happy",
+				"PageText": "Good luck everyone! I'll be taking the quiz myself."
+				
+			},
+			"Page5" : {
+				"Character": "Viola",
+				"Sprite": "Thinking",
+				"PageText": "..."
+				
+			},
+			"Page6" : {
+				"Character": "Viola",
+				"Sprite": "Peeved",
+				"PageText": "........."
+				
+			},
+			"Page7" : {
+				"Character": "Anna",
+				"Sprite": "Happy",
+				"PageText": "Hey, she's having trouble!"
+				
+			},
+			"Page8" : {
+				"Character": "Kylie",
+				"Sprite": "Thinking",
+				"PageText": "Yikes..."
+				
+			},
+			"Page9" : {
+				"Character": "Me",
+				"Sprite": "Restr",
+				"PageText": " ",
+				"Options":
+				{
+					"Finish?": "Page10",
+					"Restart?": "Page0"
+				}
+				
+			},
+			"Page10" : {
+				"Character": "Me",
+				"Sprite": "Thinking",
+				"PageText": "Thank you for reading!",
+				"NextPage": "End"
+				
+			}
+		}
+    }
+}
