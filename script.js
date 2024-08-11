@@ -1,152 +1,59 @@
-/* **SUPER IMPORTANT**  PUT THE URL OF THE JSON FILE WHERE YOU INSERTED ALL YOUR DATA HERE !! */
-const vnData = '/projects/vnengine/VNData.json';
 
-
-// Creates the HTML and inserts it into the document 
-function insertHTML(){
-	return `
-        <div id='mainbox'>
-			<div id='spritebox' class='rightalign'>
-				<img src=''>
-			</div>
-			<div id='namebox'>
-					<span>Loading...</span>
-			</div>
-			<div id='textbox'>
-				<p>Loading...</p>
-				<div id='optionsbox'></div>
-			</div>
-		</div>
-    `
-}
-
-
-const htmlData = insertHTML();
-document.getElementById('VisualNovelEngine').insertAdjacentHTML("beforebegin", htmlData);
-
-
-// Creates constants based off of the HTML created
-const $textbox = document.querySelector("#textbox p");
-const $optionsbox = document.querySelector('#optionsbox');
-const $namebox = document.querySelector("#namebox span")
-const $spritebox = document.querySelector("#spritebox img");
-const $mainbox = document.querySelector('#mainbox');
-
-let json, to;
-
-//Tracks what "Page Number" the user is on
-var pageNum = 0;
-var currentPage;
-
-async function grabData() {
-	// Load the data
-	
-	/* Fetches the data from the server */
-	const resp = await fetch(vnData)
-
-	/* Putting the data into an array */
-	json = await resp.json();
-	
-	currentPage = Object.keys(json.Scene1.PAGES)[pageNum];
-	
-	// Initialize the data 
-	initialize(json);
-	handleOptions(json);
-	
-}
-
-// Initializes the data & also handles page turning 
-async function initialize(data){
-	
-	//cleans it all
-	$spritebox.src = '';
-	$namebox.innerText = '';
-	$textbox.innerText = ''; 
-	
-	//Changes appropriate HTML elements to the new attributes based on the data given when page turns/ program is initialized
-	$spritebox.src = data.Characters[data.Scene1.PAGES[currentPage].Character][data.Scene1.PAGES[currentPage].Sprite];
-	
-	$namebox.innerText = data.Scene1.PAGES[currentPage].Character;
-	
-	typeWriter(data.Scene1.PAGES[currentPage].PageText)	
-	// $textbox.innerText = data.Scene1.PAGES[pageNum][2]; //Uncomment this part for no typewriter effect 
-	
-	$mainbox.style.backgroundImage = "url(" + data.Scene1.Background + ")"; 
-	
-}
-
-function handleOptions(data){
-	
-	//Cleans it out
-	$optionsbox.innerHTML = "";
-
-	if(data.Scene1.PAGES[currentPage].hasOwnProperty('Options')){
-		var o = data.Scene1.PAGES[currentPage].Options;
-		var str = Object.keys(o).forEach(k => {
-			const row = document.createElement('div');
-			row.innerHTML = `${k}`
-			$optionsbox.appendChild(row);
-			row.addEventListener('click', () => { 
-				currentPage = (o[k]);
-				pageNum = Object.keys(json.Scene1.PAGES).indexOf(currentPage);
-				initialize(json); 
-				$optionsbox.innerHTML = "";
-			})
-			
-		})
-	}
-	
-	
-}
-
-//Typewriter Effect 
-function typeWriter(txt, i) {
-	i = i || 0;
-	if(!i) {
-		$textbox.innerHTML = '';
-		clearTimeout(to);
-	}
-	var speed = 30; /* The speed/duration of the effect in milliseconds */
-	if (i < txt.length) {
-		var c = txt.charAt(i++);
-		if(c === ' ') c = '&nbsp;'
-	    $textbox.innerHTML += c;
-	    to = setTimeout(function() {
-	    	typeWriter(txt, i)
-	    }, speed);
-	}
-}
-
-function checkPage(data){
-	if(data.Scene1.PAGES[currentPage].hasOwnProperty('Options')) return false;
-	if(data.Scene1.PAGES[currentPage].hasOwnProperty('NextPage')) {
-		if(data.Scene1.PAGES[currentPage].NextPage == "End") return false;
-	}
-	
-	return true;
-}
-
-//Handles page turning when right or left arrow key is pressed 
-document.addEventListener('keydown', (e) => {
-	if(!json) return;
-	if(e.key == "ArrowRight" && checkPage(json)){
-		
-		if(json.Scene1.PAGES[currentPage].hasOwnProperty('NextPage')){
-			currentPage = json.Scene1.PAGES[currentPage].NextPage;
-		}
-		else {
-			pageNum++;
-			currentPage = Object.keys(json.Scene1.PAGES)[pageNum];
-		}
-		
-		initialize(json);
-		handleOptions(json);
-	}
-	else return;
-	
-})
-
-
-
-//Grabs the json data from the server
-grabData();
+      let currentState = 'Scene1';
+      let currentPage = 0;
+  
+      const backgroundElement = document.getElementById('background');
+      const characterElement = document.getElementById('character');
+      const pageTextElement = document.getElementById('page-text');
+      const answersElement = document.getElementById('answers')
+  
+      // Load the JSON data from the VNData.json file
+      fetch('VNData.json')
+        .then(response => response.json())
+        .then(data => {
+          const gameData = data;
+          updatePage(gameData);
+        })
+        .catch(error => console.error('Error loading JSON file:', error));
+  
+      function updatePage(gameData) {
+        const scene = gameData[currentState];
+        const page = scene.PAGES[currentPage];
+  
+        backgroundElement.src = scene.Background;
+        characterElement.src = `characters/${page.Character}/${page.Sprite}.png`;
+        pageTextElement.textContent = page.PageText;
+  
+        answersElement.innerHTML = '';
+        if (page.Answers) {
+          Object.keys(page.Answers).forEach((answer, index) => {
+            const button = document.createElement('button');
+            button.textContent = answer;
+            button.addEventListener('click', () => {
+              currentState = page.Answers[answer];
+              currentPage = 0;
+              updatePage(gameData);
+            });
+            answersElement.appendChild(button);
+          });
+        } else {
+          // Display three option buttons with different endings
+          const options = [
+            { text: 'Option 1', nextScene: 'Scene2' },
+            { text: 'Option 2', nextScene: 'Scene3' },
+            { text: 'Option 3', nextScene: 'Scene4' },
+          ];
+  
+          options.forEach((option) => {
+            const button = document.createElement('button');
+            button.textContent = option.text;
+            button.addEventListener('click', () => {
+              currentState = option.nextScene;
+              currentPage = 0;
+              updatePage(gameData);
+            });
+            answersElement.appendChild(button);
+          });
+        }
+      }
+  
